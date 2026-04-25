@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books Library</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+    }
+
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(30,41,59,0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .search-box {
+      background: #0f172a;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      color: white;
+      outline: none;
+      width: 220px;
+    }
+
+    .container {
+      padding: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(30,41,59,0.7);
+      border-radius: 16px;
+      padding: 20px;
+      transition: 0.3s;
+      border: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+      top: 0;
+      left: -100%;
+      transition: 0.5s;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .book-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .actions {
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 10px;
+      margin: 4px 2px;
+      background: #3b82f6;
+      border-radius: 8px;
+      font-size: 13px;
+      text-decoration: none;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #2563eb;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      opacity: 0.6;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Books Library</h1>
+  <input type="text" id="search" class="search-box" placeholder="Search books...">
+</header>
+
+<div class="container">
+  <div class="grid" id="books"></div>
+</div>
+
+<footer>
+  © 2026 Books Platform
+</footer>
+
+<script>
+  // Demo data (later GitHub API bilan almashtirasan)
+  const books = [
+    "Python Basics.pdf",
+    "Networking Guide.pdf",
+    "AI Handbook.pdf",
+    "Medical Notes.pdf",
+    "Flutter Development.pdf",
+    "Cyber Security.pdf"
+  ];
+
+  const container = document.getElementById("books");
+  const searchInput = document.getElementById("search");
+
+  function renderBooks(list) {
+    container.innerHTML = "";
+
+    list.forEach(book => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="book-icon">📖</div>
+        <div class="title">${book}</div>
+        <div class="actions">
+          <a class="btn" href="public/books/${book}" target="_blank">Open</a>
+          <a class="btn" href="public/books/${book}" download>Download</a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  searchInput.addEventListener("input", () => {
+    const value = searchInput.value.toLowerCase();
+    const filtered = books.filter(b => b.toLowerCase().includes(value));
+    renderBooks(filtered);
+  });
+
+  renderBooks(books);
+</script>
+
+</body>
+</html>
